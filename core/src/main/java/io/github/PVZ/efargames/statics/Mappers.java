@@ -3,7 +3,7 @@ package io.github.PVZ.efargames.statics;
 import com.badlogic.ashley.core.ComponentMapper;
 import io.github.PVZ.efargames.components.*;
 
-public class Mappers {
+public class Mappers { // used to simplify access of different entity components
     public static final ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
     public static final ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
     public static final ComponentMapper<SizeComponent> sm = ComponentMapper.getFor(SizeComponent.class);

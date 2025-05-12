@@ -7,7 +7,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import io.github.PVZ.efargames.statics.Families;
 import io.github.PVZ.efargames.statics.Mappers;
 
-public class CollisionSystem extends EntitySystem {
+public class CollisionSystem extends EntitySystem { // handles collisions for players, rebounds, and winboxes
     private ImmutableArray<Entity> paddles;
     private ImmutableArray<Entity> projectiles;
     private Entity projectile;
@@ -28,7 +28,7 @@ public class CollisionSystem extends EntitySystem {
     }
 
     public void update(float deltaTime) {
-        for (int i = 0; i < paddles.size(); i++) { // projectile damage
+        for (int i = 0; i < paddles.size(); i++) { // player collision
             float paddleX = Mappers.pm.get(paddles.get(i)).x;
             float paddleY = Mappers.pm.get(paddles.get(i)).y;
             float paddleBoundsWidth = Mappers.sm.get(paddles.get(i)).width;
@@ -49,7 +49,7 @@ public class CollisionSystem extends EntitySystem {
                 System.out.println(Mappers.vm.get(projectile).horizontal);
             }
         }
-        for (int i = 0; i < bounds.size(); i++) {
+        for (int i = 0; i < bounds.size(); i++) { // rebound collision
             float boundX = Mappers.pm.get(bounds.get(i)).x;
             float boundY = Mappers.pm.get(bounds.get(i)).y;
             float boundWidth = Mappers.sm.get(bounds.get(i)).width;
@@ -62,7 +62,7 @@ public class CollisionSystem extends EntitySystem {
                 Mappers.vm.get(projectile).horizontal += addedVel * Math.signum(Mappers.vm.get(projectile).horizontal);
             }
         }
-        for(int i = 0; i < winBox.size(); i++) {
+        for(int i = 0; i < winBox.size(); i++) { // point collision
             if (Mappers.pm.get(projectile).x >= Mappers.pm.get(winBox.get(i)).x && Mappers.wm.get(winBox.get(i)).ID == 0) {
                     Mappers.gm.get(game).scorep1++;
                 }

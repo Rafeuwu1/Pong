@@ -3,7 +3,7 @@ package io.github.PVZ.efargames.statics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-public class Utils {
+public class Utils { // generally useful statics for making games
     public static FileHandle getClasspath(String filepath) {
         return Gdx.files.classpath(filepath); // return any file with the name in resource folders to get assets
     }

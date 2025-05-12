@@ -6,7 +6,7 @@ import io.github.PVZ.efargames.components.*;
 import io.github.PVZ.efargames.statics.Entities;
 import io.github.PVZ.efargames.statics.Mappers;
 
-public class WinBox {
+public class WinBox { // allows for point gain
     private Entity box;
 
     public WinBox(Sprite sprite) {

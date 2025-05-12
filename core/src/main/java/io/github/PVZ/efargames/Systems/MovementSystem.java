@@ -8,7 +8,7 @@ import io.github.PVZ.efargames.components.PositionComponent;
 import io.github.PVZ.efargames.components.VelocityComponent;
 import io.github.PVZ.efargames.statics.Mappers;
 
-public class MovementSystem extends EntitySystem {
+public class MovementSystem extends EntitySystem { // allows for entities to update with velocities
     private ImmutableArray<Entity> entities;
 
 
@@ -26,7 +26,7 @@ public class MovementSystem extends EntitySystem {
 
             position.x += velocity.horizontal * deltaTime;
             position.y += velocity.vertical * deltaTime;
-//            System.out.println("x: " + position.x + " y: " + position.y);
+//            System.out.println("x: " + position.x + " y: " + position.y); // just in case things stop working
             Entities.setImageEntity(entity);
         }
     }

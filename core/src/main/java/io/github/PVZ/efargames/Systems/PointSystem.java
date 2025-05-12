@@ -4,11 +4,9 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import io.github.PVZ.efargames.statics.Entities;
 import io.github.PVZ.efargames.statics.Families;
-import io.github.PVZ.efargames.components.PositionComponent;
-import io.github.PVZ.efargames.components.VelocityComponent;
 import io.github.PVZ.efargames.statics.Mappers;
 
-public class PointSystem extends EntitySystem {
+public class PointSystem extends EntitySystem { // resets game if points are gained
     private Entity game;
     private Entity projectile;
     private int scoreP1 = 0;

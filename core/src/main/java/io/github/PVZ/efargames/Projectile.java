@@ -6,7 +6,7 @@ import io.github.PVZ.efargames.components.*;
 import io.github.PVZ.efargames.statics.Entities;
 import io.github.PVZ.efargames.statics.Mappers;
 
-public class Projectile {
+public class Projectile { // allows for projectile motion such as ball
     private Entity projectile;
 
     public Projectile(Sprite sprite) {
