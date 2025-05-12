@@ -167,13 +167,13 @@ public class Main implements ApplicationListener{
     }
 
     @Override
-    public void dispose() { // clears engine when program ends
+    public void dispose() { // clears engine when program
         // Destroy application's resources here.
         spriteBatch.dispose();
         atlas.dispose();
         stage.dispose();
     }
-    public void inputChecks() { // checks inputs for player movement
+    public void inputChecks() {
         if(Gdx.input.isKeyPressed(Input.Keys.W) && Mappers.pm.get(engine.getEntitiesFor(Families.player).get(0)).y >= 150) {
             Mappers.vm.get(engine.getEntitiesFor(Families.player).get(0)).vertical = -500;
             Mappers.plm.get(engine.getEntitiesFor(Families.player).get(0)).up = true;
