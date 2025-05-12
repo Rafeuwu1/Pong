@@ -8,7 +8,7 @@ import io.github.PVZ.efargames.statics.Mappers;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player { // holds all player values
     private Entity player;
 
     public Player(Sprite sprite, int newID) {

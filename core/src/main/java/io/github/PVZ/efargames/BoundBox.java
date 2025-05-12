@@ -6,7 +6,7 @@ import io.github.PVZ.efargames.components.*;
 import io.github.PVZ.efargames.statics.Entities;
 import io.github.PVZ.efargames.statics.Mappers;
 
-public class BoundBox {
+public class BoundBox { // rebounds the ball on collision
     private Entity box;
 
     public BoundBox(Sprite sprite) {
@@ -36,7 +36,6 @@ public class BoundBox {
     public Entity getBox() {
         return box;
     }
-
 
     private void addComponents() {
         box.add(new PositionComponent());

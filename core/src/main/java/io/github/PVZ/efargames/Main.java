@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -25,93 +24,91 @@ import io.github.PVZ.efargames.statics.Utils;
 import static com.badlogic.gdx.Gdx.gl;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main implements ApplicationListener{
+public class Main implements ApplicationListener{ // main
     // required variables
-    private OrthographicCamera camera;
-    private BitmapFont font;
-    CharSequence scores = "0-0";
+    private OrthographicCamera camera; // makes it so that the camera will resize with the screen resizing
+    private BitmapFont font; // default font for text
+    CharSequence scores = "0-0"; // in case text is not updated before display
 
-    private float VIEWPORT_WIDTH = 1300f;
-    private float VIEWPORT_HEIGHT = 1300f;
-    private float HEADER_HEIGHT = 50f;
+    private float VIEWPORT_WIDTH = 1300f; // variable for width of screen
+    private float VIEWPORT_HEIGHT = 1300f; // variable for height of screen
 
-    private SpriteBatch spriteBatch;
+    private SpriteBatch spriteBatch; // holds all of the sprites so that they can be drawn
 
-    private static TextureAtlas atlas;
-    private Stage stage;
+    private static TextureAtlas atlas; // holds the textures used in the game
+    private Stage stage; // handles inputs and screen functions
 
-    private Button button;
+//    private Button button; // ignore this is for later projects
 
-    private Engine engine = new Engine();
-    private Entity entity = new Entity();
+    private Engine engine = new Engine(); // handles all of the entities as well as systems
 
-    private Projectile placeholderProjectile;
+    private Projectile ball; // the entity for the ball
 
-    private Player leftPlayer;
+    private Player leftPlayer; // player objects
     private Player rightPlayer;
 
-    private BoundBox topBox;
+    private BoundBox topBox; // boxes for rebounding ball at top and bottom of screen
     private BoundBox bottomBox;
 
-    private WinBox p1Box;
+    private WinBox p1Box; // boxes for adding points to sides
     private WinBox p2Box;
 
-    private Entity game;
+    private Entity game; // holds variables such as score
 
     @Override
     public void create() {
         // Prepare your application here.
-        float width = Gdx.graphics.getWidth();
+        float width = Gdx.graphics.getWidth(); // gdx auto width and heights
         float height = Gdx.graphics.getHeight();
-        atlas = new TextureAtlas(Utils.getInternalPath("atlas/game_atlas.atlas"));
+        atlas = new TextureAtlas(Utils.getInternalPath("atlas/game_atlas.atlas")); // starts the atlas
 
-        camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT * height/width);
+        camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT * height/width); // sets up camera
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
+        camera.update(); // starts camera
 
-        spriteBatch = new SpriteBatch();
+        spriteBatch = new SpriteBatch(); // sets up sprite batch
 
-        Skin skin = new Skin(Utils.getInternalPath("ui/uiskin.json"));
+//        Skin skin = new Skin(Utils.getInternalPath("ui/uiskin.json")); // ignore used for button
 
         stage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(stage); // makes inputs availible through stage
 
-        button = new Button(skin);
-        button.setBounds(700, 500, 300, 300);
-        stage.addActor(button);
+//        button = new Button(skin); // ignore this is for later projects
+//        button.setBounds(700, 500, 300, 300);
+//        stage.addActor(button);
 
-        font = new BitmapFont();
+        font = new BitmapFont(); // sets up font
 
-        placeholderProjectile = new Projectile(atlas.createSprite("Red_Square"), 650, 650);
-        engine.addEntity(placeholderProjectile.getProjectile());
+        ball = new Projectile(atlas.createSprite("Red_Square"), 650, 650); // gives start location and sprite to ball
+        engine.addEntity(ball.getProjectile()); // adds entity from class
 
-        leftPlayer = new Player(atlas.createSprite("Red_Square"), 0);
-        engine.addEntity(leftPlayer.getPlayer());
+        leftPlayer = new Player(atlas.createSprite("Red_Square"), 0); // sets id to distinguish players
+        engine.addEntity(leftPlayer.getPlayer()); // adds entity from call
 
-        rightPlayer = new Player(atlas.createSprite("Red_Square"), 1);
-        engine.addEntity(rightPlayer.getPlayer());
+        rightPlayer = new Player(atlas.createSprite("Red_Square"), 1); // sets id to distinguish players
+        engine.addEntity(rightPlayer.getPlayer()); // adds entity from call
 
-        topBox = new BoundBox(atlas.createSprite("Red_Square"), 0, -49, 1500, 10);
-        engine.addEntity(topBox.getBox());
+        topBox = new BoundBox(atlas.createSprite("Red_Square"), 0, -49, 1500, 10); // sets up bounds
+        engine.addEntity(topBox.getBox());  // adds entity to engine
 
-        bottomBox = new BoundBox(atlas.createSprite("Red_Square"), 0, 1259, 1500, 10);
-        engine.addEntity(bottomBox.getBox());
+        bottomBox = new BoundBox(atlas.createSprite("Red_Square"), 0, 1259, 1500, 10); // sets up bounds
+        engine.addEntity(bottomBox.getBox()); // adds entity from call to engine
 
-        p1Box = new WinBox(atlas.createSprite("Red_Square"), 1300, 0);
-        engine.addEntity(p1Box.getBox());
-        p2Box = new WinBox(atlas.createSprite("Red_Square"), -40, 1);
-        engine.addEntity(p2Box.getBox());
+        p1Box = new WinBox(atlas.createSprite("Red_Square"), 1300, 0); // sets id to show who get points
+        engine.addEntity(p1Box.getBox()); // adds entity to engine
+        p2Box = new WinBox(atlas.createSprite("Red_Square"), -40, 1); // sets id to show who get points
+        engine.addEntity(p2Box.getBox()); // adds entity to engine
 
         game = new Entity();
-        game.add(new GameComponent());
-        engine.addEntity(game);
+        game.add(new GameComponent()); // initializes game
+        engine.addEntity(game); // adds game to engine
 
-        MovementSystem movement = new MovementSystem();
-        CollisionSystem collision = new CollisionSystem();
-        PointSystem points = new PointSystem();
+        MovementSystem movement = new MovementSystem(); // adds systems that are called every frame, allows for velocity to effect entities
+        CollisionSystem collision = new CollisionSystem(); // checks collision of top and bottom
+        PointSystem points = new PointSystem(); // sets up points
         engine.addSystem(movement);
         engine.addSystem(collision);
-        engine.addSystem(points);
+        engine.addSystem(points); // adds systems to engines
 //        engine.getSystem(MovementSystem.class).setProcessing(false); // stop movement system
 //        ImmutableArray<Component> components = entity.getComponents();
     }
@@ -119,6 +116,7 @@ public class Main implements ApplicationListener{
     @Override
     public void resize(int width, int height) {
         // Resize your application here. The parameters represent the new window size.
+        // resizes and sets up camera on game startup
         camera.viewportWidth = VIEWPORT_WIDTH;
         camera.viewportHeight = VIEWPORT_HEIGHT * height/width;
         camera.update();
@@ -128,31 +126,32 @@ public class Main implements ApplicationListener{
     @Override
     public void render() { // main loop
         // Draw your application here.
-        gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        spriteBatch.setProjectionMatrix(camera.combined);
-        inputChecks();
-        scores = Mappers.gm.get(engine.getEntitiesFor(Families.game).get(0)).scorep1 + "-" + Mappers.gm.get(engine.getEntitiesFor(Families.game).get(0)).scorep2;
-//        System.out.println(button.isPressed());
+        gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT); // clears each frame so next frame can be drawn
+        spriteBatch.setProjectionMatrix(camera.combined); // makes it so that sprites will scale to screen size
+        inputChecks(); // checks all possible inputs to set velocity values
+        scores = Mappers.gm.get(engine.getEntitiesFor(Families.game).get(0)).scorep1 + "-" +
+            Mappers.gm.get(engine.getEntitiesFor(Families.game).get(0)).scorep2; // updates players score text
+//        System.out.println(button.isPressed()); // ignore used for button
         // game logic here
-        stage.getViewport().apply();
-        stage.act();
+        stage.getViewport().apply(); // allows for resizing of viewport
+        stage.act(); // enacts viewport size change
 
-        engine.update(Gdx.graphics.getDeltaTime());
+        engine.update(Gdx.graphics.getDeltaTime()); // updates systems inside of engine using delta time
 
-        stage.draw();
-        spriteBatch.begin();
+        stage.draw();// starts drawing
+        spriteBatch.begin(); // starts drawing
 
         for(int i = 0; i < engine.getEntities().size() - 1; i++) {
-            Mappers.im.get(getEntity(i)).sprite.draw(spriteBatch);
+            Mappers.im.get(getEntity(i)).sprite.draw(spriteBatch); // draws all sprites in engine
         }
-        font.draw(spriteBatch, scores, 650, 1200);
+        font.draw(spriteBatch, scores, 650, 1200); // draws text
 
-        spriteBatch.end();
+        spriteBatch.end(); // ends drawing phase
     }
-    public Entity getEntity(int index) {
+    public Entity getEntity(int index) { // allows other places to access engine
         return engine.getEntities().get(index);
     }
-    public static TextureAtlas getAtlas() {
+    public static TextureAtlas getAtlas() { // allows other places to access the texture atlas
         return atlas;
     }
 
@@ -168,7 +167,7 @@ public class Main implements ApplicationListener{
     }
 
     @Override
-    public void dispose() {
+    public void dispose() { // clears engine when program
         // Destroy application's resources here.
         spriteBatch.dispose();
         atlas.dispose();
