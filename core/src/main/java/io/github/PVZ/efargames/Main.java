@@ -24,7 +24,7 @@ import io.github.PVZ.efargames.statics.Utils;
 import static com.badlogic.gdx.Gdx.gl;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main implements ApplicationListener{
+public class Main implements ApplicationListener{ // main
     // required variables
     private OrthographicCamera camera; // makes it so that the camera will resize with the screen resizing
     private BitmapFont font; // default font for text
